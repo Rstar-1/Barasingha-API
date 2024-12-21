@@ -1,5 +1,5 @@
-const SeoController = require('../controllers/seocontroller/SeoController.js');
+const MineController = require('../controllers/minecontroller/MineController.js');
 
 module.exports = {
-  SeoController,
+  MineController,
 };

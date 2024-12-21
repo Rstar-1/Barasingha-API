@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const SeoRoute = require("./seoroutes/SeoRoutes");
+const MineRoute = require("./mineroutes/MineRoutes");
 
 module.exports = function(app) {
  app.use("/api", router)
- SeoRoute(router);
+ MineRoute(router);
 }
