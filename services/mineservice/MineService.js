@@ -21,18 +21,6 @@ exports.mineadddata = async (req, res) => {
   }
 };
 
-// Mine all data
-exports.minegetdata = async (req, res) => {
-  try {
-    const userdata = await mine.find();
-    res.status(201).json(userdata);
-
-    // console.log(userdata, "minealldata");
-  } catch (error) {
-    res.status(422).json(error);
-  }
-};
-
 // Mine pagination all data
 exports.minepaginationdata = async (req, res) => {
   try {
@@ -41,7 +29,7 @@ exports.minepaginationdata = async (req, res) => {
 
     if (search) {
       Object.assign(searchObject, {
-        sectionname: {
+        title: {
           $regex: `${search.toString().trim()}`,
           $options: "i",
         },
@@ -50,6 +38,258 @@ exports.minepaginationdata = async (req, res) => {
     const minestore = await mine.find(searchObject).skip(offset).limit(6);
     const totalCount = await mine.countDocuments(searchObject);
     res.json({ minestore, totalCount });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// Mine Activity pagination all data
+exports.activitypaginationdata = async (req, res) => {
+  try {
+    const { offset = 0, search = "", pagination = true } = req.body;
+    const searchObject = { category: "Activity" };
+    if (search) {
+      searchObject.title = {
+        $regex: search.toString().trim(),
+        $options: "i",
+      };
+    }
+    if (pagination === true) {
+      const activitystore = await mine
+        .find(searchObject)
+        .skip(parseInt(offset, 10))
+        .limit(6);
+      const totalCount = await mine.countDocuments(searchObject);
+      res.json({ activitystore, totalCount });
+    } else {
+      const activitystore = await mine.find(searchObject);
+      const totalCount = await mine.countDocuments(searchObject);
+      res.json({ activitystore, totalCount });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// Mine Activity published pagination all data
+exports.activitypluspaginationdata = async (req, res) => {
+  try {
+    const { offset = 0, search = "", pagination = true } = req.body;
+    const searchObject = { category: "Activity", status: true };
+    if (search) {
+      searchObject.title = {
+        $regex: search.toString().trim(),
+        $options: "i",
+      };
+    }
+    if (pagination === true) {
+      const activitypstore = await mine
+        .find(searchObject)
+        .skip(parseInt(offset, 10))
+        .limit(6);
+      const totalCount = await mine.countDocuments(searchObject);
+      res.json({ activitypstore, totalCount });
+    } else {
+      const activitypstore = await mine.find(searchObject);
+      const totalCount = await mine.countDocuments(searchObject);
+      res.json({ activitypstore, totalCount });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// Mine Activity unpublished pagination all data
+exports.activitynotpaginationdata = async (req, res) => {
+  try {
+    const { offset = 0, search = "", pagination = true } = req.body;
+    const searchObject = { category: "Activity", status: false };
+    if (search) {
+      searchObject.title = {
+        $regex: search.toString().trim(),
+        $options: "i",
+      };
+    }
+    if (pagination === true) {
+      const activitynstore = await mine
+        .find(searchObject)
+        .skip(parseInt(offset, 10))
+        .limit(6);
+      const totalCount = await mine.countDocuments(searchObject);
+      res.json({ activitynstore, totalCount });
+    } else {
+      const activitynstore = await mine.find(searchObject);
+      const totalCount = await mine.countDocuments(searchObject);
+      res.json({ activitynstore, totalCount });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// Mine Manage pagination all data
+exports.managepaginationdata = async (req, res) => {
+  try {
+    const { offset = 0, search = "", pagination = true } = req.body;
+    const searchObject = { category: "Manage" };
+    if (search) {
+      searchObject.title = {
+        $regex: search.toString().trim(),
+        $options: "i",
+      };
+    }
+    if (pagination === true) {
+      const managestore = await mine
+        .find(searchObject)
+        .skip(parseInt(offset, 10))
+        .limit(6);
+      const totalCount = await mine.countDocuments(searchObject);
+      res.json({ managestore, totalCount });
+    } else {
+      const managestore = await mine.find(searchObject);
+      const totalCount = await mine.countDocuments(searchObject);
+      res.json({ managestore, totalCount });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// Mine Manage published pagination all data
+exports.managepluspaginationdata = async (req, res) => {
+  try {
+    const { offset = 0, search = "", pagination = true } = req.body;
+    const searchObject = { category: "Manage", status: true };
+    if (search) {
+      searchObject.title = {
+        $regex: search.toString().trim(),
+        $options: "i",
+      };
+    }
+    if (pagination === true) {
+      const managepstore = await mine
+        .find(searchObject)
+        .skip(parseInt(offset, 10))
+        .limit(6);
+      const totalCount = await mine.countDocuments(searchObject);
+      res.json({ managepstore, totalCount });
+    } else {
+      const managepstore = await mine.find(searchObject);
+      const totalCount = await mine.countDocuments(searchObject);
+      res.json({ managepstore, totalCount });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// Mine Manage unpublished pagination all data
+exports.managenotpaginationdata = async (req, res) => {
+  try {
+    const { offset = 0, search = "", pagination = true } = req.body;
+    const searchObject = { category: "Manage", status: false };
+    if (search) {
+      searchObject.title = {
+        $regex: search.toString().trim(),
+        $options: "i",
+      };
+    }
+    if (pagination === true) {
+      const managenstore = await mine
+        .find(searchObject)
+        .skip(parseInt(offset, 10))
+        .limit(6);
+      const totalCount = await mine.countDocuments(searchObject);
+      res.json({ managenstore, totalCount });
+    } else {
+      const managenstore = await mine.find(searchObject);
+      const totalCount = await mine.countDocuments(searchObject);
+      res.json({ managenstore, totalCount });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// Mine Stock pagination all data
+exports.stockpaginationdata = async (req, res) => {
+  try {
+    const { offset = 0, search = "", pagination = true } = req.body;
+    const searchObject = { category: "Stock" };
+    if (search) {
+      searchObject.title = {
+        $regex: search.toString().trim(),
+        $options: "i",
+      };
+    }
+    if (pagination === true) {
+      const stockstore = await mine
+        .find(searchObject)
+        .skip(parseInt(offset, 10))
+        .limit(6);
+      const totalCount = await mine.countDocuments(searchObject);
+      res.json({ stockstore, totalCount });
+    } else {
+      const stockstore = await mine.find(searchObject);
+      const totalCount = await mine.countDocuments(searchObject);
+      res.json({ stockstore, totalCount });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// Mine Stock published pagination all data
+exports.stockpluspaginationdata = async (req, res) => {
+  try {
+    const { offset = 0, search = "", pagination = true } = req.body;
+    const searchObject = { category: "Stock", status: true };
+    if (search) {
+      searchObject.title = {
+        $regex: search.toString().trim(),
+        $options: "i",
+      };
+    }
+    if (pagination === true) {
+      const stockpstore = await mine
+        .find(searchObject)
+        .skip(parseInt(offset, 10))
+        .limit(6);
+      const totalCount = await mine.countDocuments(searchObject);
+      res.json({ stockpstore, totalCount });
+    } else {
+      const stockpstore = await mine.find(searchObject);
+      const totalCount = await mine.countDocuments(searchObject);
+      res.json({ stockpstore, totalCount });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// Mine Stock unpublished pagination all data
+exports.stocknotpaginationdata = async (req, res) => {
+  try {
+    const { offset = 0, search = "", pagination = true } = req.body;
+    const searchObject = { category: "Stock", status: false };
+    if (search) {
+      searchObject.title = {
+        $regex: search.toString().trim(),
+        $options: "i",
+      };
+    }
+    if (pagination === true) {
+      const stocknstore = await mine
+        .find(searchObject)
+        .skip(parseInt(offset, 10))
+        .limit(6);
+      const totalCount = await mine.countDocuments(searchObject);
+      res.json({ stocknstore, totalCount });
+    } else {
+      const stocknstore = await mine.find(searchObject);
+      const totalCount = await mine.countDocuments(searchObject);
+      res.json({ stocknstore, totalCount });
+    }
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
